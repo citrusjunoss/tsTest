@@ -1,64 +1,61 @@
 <template>
-  <div class="test-container">
-    {{ message }}
-    <input type="button" value="点击触发父级方法" @click="bindSend" />
-    <input type="button" value="点击触发父级方法" @click="handleSend" />
-    <input type="button" value="点击触发父级方法" @click="bindSend2" />
-    <Hello></Hello>
+  <div class="hello">
+    <h1>{{ msg }}</h1>
+    <p>
+      For a guide and recipes on how to configure / customize this project,<br>
+      check out the
+      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
+    </p>
+    <h3>Installed CLI Plugins</h3>
+    <ul>
+      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
+      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-router" target="_blank" rel="noopener">router</a></li>
+      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-vuex" target="_blank" rel="noopener">vuex</a></li>
+      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
+      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-typescript" target="_blank" rel="noopener">typescript</a></li>
+    </ul>
+    <h3>Essential Links</h3>
+    <ul>
+      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
+      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
+      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
+      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
+      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
+    </ul>
+    <h3>Ecosystem</h3>
+    <ul>
+      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
+      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
+      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
+      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
+      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
+    </ul>
   </div>
 </template>
+
 <script lang="ts">
-import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator'
-import Hello from './Hello.vue'
-// 注明此类为一个vue组件
-@Component({
-  components: {
-    Hello,
-  },
-})
- export default class Test extends Vue {
-  // 原有data中的数据在这里展开编写
-  message: string = 'asd'
-  // 原有props中的数据展开编写
-  @Prop({
-    type: Number,
-    default: 1,
-    required: false,
-  })
-  propA?: number
-  @Prop()
-  propB!: string
-  //原有computed
-  public get computedMsg() {
-    return '这里是计算属性' + this.message
-  }
-  public set computedMsg(message: string) {}
-  //原有的watch属性
-  @Watch('propA', {
-    deep: true,
-  })
-  public test(newValue: string, oldValue: string) {
-    console.log('propA值改变了' + newValue)
-  }
-  // 以前需要给父级传值的时候直接方法中使用emit就行了，当前需要通过emit来处理
-  @Emit()
-  private bindSend(): string {
-    return this.message
-  }
-  @Emit()
-  private bindSend1(msg: string, love: string) {
-    // 如果不处理可以不写下面的，会自动将参数回传
-    //   msg += 'love';
-    //   return msg;
-  }
-  //原有放在methods中的方法平铺出来
-  public handleSend(): void {
-    this.bindSend1(this.message, 'love')
-  }
-  // 这里的emit中的参数是表明父级通过什么接受，类似以前的$emit('父级定义的方法')
-  @Emit('test')
-  private bindSend2() {
-    return '这个可以用test接受'
-  }
+import { Component, Prop, Vue } from 'vue-property-decorator'
+
+@Component
+export default class HelloWorld extends Vue {
+  @Prop() private msg!: string;
 }
 </script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+h3 {
+  margin: 40px 0 0;
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+li {
+  display: inline-block;
+  margin: 0 10px;
+}
+a {
+  color: #42b983;
+}
+</style>
